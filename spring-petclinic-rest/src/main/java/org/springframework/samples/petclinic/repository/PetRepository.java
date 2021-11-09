@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 
@@ -49,7 +50,7 @@ public interface PetRepository {
      * @return the <code>Pet</code> if found
      * @throws org.springframework.dao.DataRetrievalFailureException if not found
      */
-    Pet findById(int id) throws DataAccessException;
+    Pet findPetById(int id) throws DataAccessException;
 
     /**
      * Save a <code>Pet</code> to the data store, either inserting or updating it.
@@ -57,7 +58,7 @@ public interface PetRepository {
      * @param pet the <code>Pet</code> to save
      * @see BaseEntity#isNew
      */
-    void save(Pet pet) throws DataAccessException;
+    void savePet(Pet pet) throws DataAccessException;
     
     /**
      * Retrieve <code>Pet</code>s from the data store, returning all owners 
@@ -65,7 +66,7 @@ public interface PetRepository {
      * @return a <code>Collection</code> of <code>Pet</code>s (or an empty <code>Collection</code> if none
      * found)
      */
-	Collection<Pet> findAll() throws DataAccessException;
+	Collection<Pet> findAllPets() throws DataAccessException;
 
     /**
      * Delete an <code>Pet</code> to the data store by <code>Pet</code>.
@@ -73,6 +74,61 @@ public interface PetRepository {
      * @param pet the <code>Pet</code> to delete
      * 
      */
-	void delete(int petId) throws DataAccessException;
+	void deletePet(int petId) throws DataAccessException;
+	
+	
+	PetType findTypeById(int id) throws DataAccessException;
+	
+	Collection<PetType> findAllTypes() throws DataAccessException;
+
+	void saveType(PetType petType) throws DataAccessException;
+	
+	void deleteType(int id) throws DataAccessException;
+	
+    /**
+     * Retrieve <code>Owner</code>s from the data store by last name, returning all owners whose last name <i>starts</i>
+     * with the given name.
+     *
+     * @param lastName Value to search for
+     * @return a <code>Collection</code> of matching <code>Owner</code>s (or an empty <code>Collection</code> if none
+     * found)
+     */
+    Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException;
+
+    /**
+     * Retrieve an <code>Owner</code> from the data store by id.
+     *
+     * @param id the id to search for
+     * @return the <code>Owner</code> if found
+     * @throws org.springframework.dao.DataRetrievalFailureException if not found
+     */
+    Owner findOwnerById(int id) throws DataAccessException;
+
+
+    /**
+     * Save an <code>Owner</code> to the data store, either inserting or updating it.
+     *
+     * @param owner the <code>Owner</code> to save
+     * @see BaseEntity#isNew
+     */
+    void saveOwner(Owner owner) throws DataAccessException;
+    
+    /**
+     * Retrieve <code>Owner</code>s from the data store, returning all owners 
+     *
+     * @return a <code>Collection</code> of <code>Owner</code>s (or an empty <code>Collection</code> if none
+     * found)
+     */
+	Collection<Owner> findAllOwners() throws DataAccessException;
+	
+    /**
+     * Delete an <code>Owner</code> to the data store by <code>Owner</code>.
+     *
+     * @param owner the <code>Owner</code> to delete
+     * 
+     */
+	void deleteOwner(int ownerId) throws DataAccessException;
+
+	Collection<Owner> findByPets_Name(String petName);
 
 }

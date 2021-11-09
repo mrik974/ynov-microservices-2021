@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.repository;
 import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 
 /**
@@ -37,15 +38,23 @@ public interface VetRepository {
      *
      * @return a <code>Collection</code> of <code>Vet</code>s
      */
-    Collection<Vet> findAll() throws DataAccessException;
+    Collection<Vet> findAllVets() throws DataAccessException;
     
-	Vet findById(int id) throws DataAccessException;
+	Vet findVetById(int id) throws DataAccessException;
 
-	void save(Vet vet) throws DataAccessException;
+	void saveVet(Vet vet) throws DataAccessException;
 	
-	void delete(int vetId) throws DataAccessException;
+	void deleteVet(int vetId) throws DataAccessException;
 
-	Collection<Vet> findBySpecialty(String specialty);
+	Collection<Vet> findVetsBySpecialty(String specialty);
+	
+	Specialty findSpecialtyById(int id) throws DataAccessException;
+	
+	Collection<Specialty> findAllSpecialties() throws DataAccessException;
+	
+	void saveSpecialty(Specialty specialty) throws DataAccessException;
+	
+	void deleteSpecialty(Integer specialtyId) throws DataAccessException;
 
 
 }
