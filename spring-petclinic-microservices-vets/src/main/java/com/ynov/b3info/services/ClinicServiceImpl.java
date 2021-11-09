@@ -120,5 +120,10 @@ public class ClinicServiceImpl implements ClinicService {
 	public Collection<Vet> findVets() throws DataAccessException {
 		return vetRepository.findAll();
 	}
+
+	@Override
+	public Collection<Vet> findVetsBySpecialty(String specialty) {
+		return vetRepository.findBySpecialties_Name(specialty);
+	}
 	
 }

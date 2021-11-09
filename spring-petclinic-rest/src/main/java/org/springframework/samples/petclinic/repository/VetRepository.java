@@ -45,5 +45,7 @@ public interface VetRepository {
 	
 	void delete(int vetId) throws DataAccessException;
 
+	Collection<Vet> findBySpecialty(String specialty);
+
 
 }

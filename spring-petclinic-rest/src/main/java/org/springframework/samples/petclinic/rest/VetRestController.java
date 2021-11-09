@@ -55,7 +55,6 @@ public class VetRestController {
     @PreAuthorize( "hasRole(@roles.VET_ADMIN)" )
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Collection<Vet>> getAllVets(){
-    	System.out.println(this.clinicService.toString());
 		Collection<Vet> vets = new ArrayList<Vet>();
 		vets.addAll(this.clinicService.findAllVets());
 		if (vets.isEmpty()){
@@ -124,7 +123,16 @@ public class VetRestController {
 		this.clinicService.deleteVet(vet);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
-
+    
+    @RequestMapping(value = "/by-specialty/{specialty}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Collection<Vet>> getVetsBySpecialty(@PathVariable("specialty") String specialty) {
+    	Collection<Vet> vets = new ArrayList<Vet>();
+		vets.addAll(this.clinicService.findVetBySpecialty(specialty));
+		if (vets.isEmpty()){
+			return new ResponseEntity<Collection<Vet>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Collection<Vet>>(vets, HttpStatus.OK);
+    }
 
 
 }

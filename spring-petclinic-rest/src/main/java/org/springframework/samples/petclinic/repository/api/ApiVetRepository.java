@@ -25,5 +25,8 @@ public interface ApiVetRepository extends VetRepository {
 
 	@RequestMapping(value = "/{vetId}", method = RequestMethod.DELETE, produces = "application/json")
 	void delete(@PathVariable("vetId") int vetId) throws DataAccessException;
+	
+	@RequestMapping(value = "/by-specialty/{specialty}", method = RequestMethod.GET, produces = "application/json")
+	Collection<Vet> findBySpecialty(@PathVariable("specialty") String specialty);
 
 }

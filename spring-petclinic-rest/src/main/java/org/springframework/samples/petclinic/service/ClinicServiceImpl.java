@@ -289,5 +289,10 @@ public class ClinicServiceImpl implements ClinicService {
 	public Collection<Owner> findOwnersByPetName(String petName) {
 		return ownerRepository.findByPets_Name(petName);
 	}
+
+	@Override
+	public Collection<Vet> findVetBySpecialty(String specialty) {
+		return vetRepository.findBySpecialty(specialty);
+	}
 	
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(url = "http://localhost:8081/api/pets/", name = "pets-api")
 public interface ApiPetRepository extends PetRepository {
 
+	@RequestMapping(value = "/pettypes", method = RequestMethod.GET, produces = "application/json")
     List<PetType> findPetTypes() throws DataAccessException;
 
 	@RequestMapping(value = "/{petId}", method = RequestMethod.GET, produces = "application/json")

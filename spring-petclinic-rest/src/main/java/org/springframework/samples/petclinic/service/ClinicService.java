@@ -68,5 +68,6 @@ public interface ClinicService {
 	void saveSpecialty(Specialty specialty) throws DataAccessException;
 	void deleteSpecialty(Specialty specialty) throws DataAccessException;
 	Collection<Owner> findOwnersByPetName(String petName);
+	Collection<Vet> findVetBySpecialty(String specialty);
 
 }
