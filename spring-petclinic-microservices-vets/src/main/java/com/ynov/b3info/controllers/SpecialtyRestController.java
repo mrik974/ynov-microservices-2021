@@ -18,6 +18,7 @@ package com.ynov.b3info.controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -52,30 +53,35 @@ public class SpecialtyRestController {
 	private ClinicService clinicService;
 
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Collection<Specialty>> getAllSpecialtys(){
-    	System.out.println(this.clinicService.toString());
+	public ResponseEntity<Collection<Specialty>> getAllSpecialties() throws InterruptedException {
+		Random random = new Random();
+		if (random.nextBoolean()) {
+			Thread.sleep(500);
+		}
 		Collection<Specialty> specialties = new ArrayList<Specialty>();
 		specialties.addAll(this.clinicService.findAllSpecialties());
-		if (specialties.isEmpty()){
+		if (specialties.isEmpty()) {
 			return new ResponseEntity<Collection<Specialty>>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Collection<Specialty>>(specialties, HttpStatus.OK);
+
 	}
 
 	@RequestMapping(value = "/{specialtyId}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Specialty> getSpecialty(@PathVariable("specialtyId") int specialtyId){
+	public ResponseEntity<Specialty> getSpecialty(@PathVariable("specialtyId") int specialtyId) {
 		Specialty specialty = this.clinicService.findSpecialtyById(specialtyId);
-		if(specialty == null){
+		if (specialty == null) {
 			return new ResponseEntity<Specialty>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Specialty>(specialty, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<Specialty> addSpecialty(@RequestBody @Valid Specialty specialty, BindingResult bindingResult, UriComponentsBuilder ucBuilder){
+	public ResponseEntity<Specialty> addSpecialty(@RequestBody @Valid Specialty specialty, BindingResult bindingResult,
+			UriComponentsBuilder ucBuilder) {
 		BindingErrorsResponse errors = new BindingErrorsResponse();
 		HttpHeaders headers = new HttpHeaders();
-		if(bindingResult.hasErrors() || (specialty == null)){
+		if (bindingResult.hasErrors() || (specialty == null)) {
 			errors.addAllErrors(bindingResult);
 			headers.add("errors", errors.toJSON());
 			return new ResponseEntity<Specialty>(headers, HttpStatus.BAD_REQUEST);
@@ -86,16 +92,17 @@ public class SpecialtyRestController {
 	}
 
 	@RequestMapping(value = "/{specialtyId}", method = RequestMethod.PUT, produces = "application/json")
-	public ResponseEntity<Specialty> updateSpecialty(@PathVariable("specialtyId") int specialtyId, @RequestBody @Valid Specialty specialty, BindingResult bindingResult){
+	public ResponseEntity<Specialty> updateSpecialty(@PathVariable("specialtyId") int specialtyId,
+			@RequestBody @Valid Specialty specialty, BindingResult bindingResult) {
 		BindingErrorsResponse errors = new BindingErrorsResponse();
 		HttpHeaders headers = new HttpHeaders();
-		if(bindingResult.hasErrors() || (specialty == null)){
+		if (bindingResult.hasErrors() || (specialty == null)) {
 			errors.addAllErrors(bindingResult);
 			headers.add("errors", errors.toJSON());
 			return new ResponseEntity<Specialty>(headers, HttpStatus.BAD_REQUEST);
 		}
 		Specialty currentSpecialty = this.clinicService.findSpecialtyById(specialtyId);
-		if(currentSpecialty == null){
+		if (currentSpecialty == null) {
 			return new ResponseEntity<Specialty>(HttpStatus.NOT_FOUND);
 		}
 		currentSpecialty.setName(specialty.getName());
@@ -105,9 +112,9 @@ public class SpecialtyRestController {
 
 	@RequestMapping(value = "/{specialtyId}", method = RequestMethod.DELETE, produces = "application/json")
 	@Transactional
-	public ResponseEntity<Void> deleteSpecialty(@PathVariable("specialtyId") int specialtyId){
+	public ResponseEntity<Void> deleteSpecialty(@PathVariable("specialtyId") int specialtyId) {
 		Specialty specialty = this.clinicService.findSpecialtyById(specialtyId);
-		if(specialty == null){
+		if (specialty == null) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 		this.clinicService.deleteSpecialty(specialty);
