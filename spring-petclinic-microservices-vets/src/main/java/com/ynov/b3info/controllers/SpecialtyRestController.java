@@ -23,6 +23,8 @@ import java.util.Random;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -79,6 +81,8 @@ public class SpecialtyRestController {
 	@RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<Specialty> addSpecialty(@RequestBody @Valid Specialty specialty, BindingResult bindingResult,
 			UriComponentsBuilder ucBuilder) {
+		Logger logger = LoggerFactory.getLogger(this.getClass());
+		logger.info("adding specialty " + specialty.getName());
 		BindingErrorsResponse errors = new BindingErrorsResponse();
 		HttpHeaders headers = new HttpHeaders();
 		if (bindingResult.hasErrors() || (specialty == null)) {

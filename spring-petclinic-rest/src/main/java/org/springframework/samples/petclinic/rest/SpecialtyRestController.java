@@ -22,6 +22,8 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -55,7 +57,6 @@ public class SpecialtyRestController {
     @PreAuthorize( "hasRole(@roles.VET_ADMIN)" )
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Collection<Specialty>> getAllSpecialtys(){
-    	System.out.println(this.clinicService.toString());
 		Collection<Specialty> specialties = new ArrayList<Specialty>();
 		specialties.addAll(this.clinicService.findAllSpecialties());
 		if (specialties.isEmpty()){
@@ -78,6 +79,8 @@ public class SpecialtyRestController {
 	@RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<Specialty> addSpecialty(@RequestBody @Valid Specialty specialty, BindingResult bindingResult, UriComponentsBuilder ucBuilder){
 		BindingErrorsResponse errors = new BindingErrorsResponse();
+		Logger logger = LoggerFactory.getLogger(this.getClass());
+		logger.info("adding specialty " + specialty.getName());
 		HttpHeaders headers = new HttpHeaders();
 		if(bindingResult.hasErrors() || (specialty == null)){
 			errors.addAllErrors(bindingResult);
